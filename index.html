@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="CartShare — a collaborative shopping room for groups.">
+  <title>CartShare | Shared shopping, simplified</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="CartShare home"><span class="brand-mark">C</span><span>CartShare<small>SHOP TOGETHER</small></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav">
+        <a href="#dashboard" data-route="dashboard" class="nav-link active"><span>▦</span> Overview</a>
+        <a href="#room" data-route="room" class="nav-link"><span>🛒</span> Shared cart <b id="nav-count">0</b></a>
+        <a href="#activity" data-route="activity" class="nav-link"><span>◷</span> Activity log</a>
+        <a href="#receipt" data-route="receipt" class="nav-link"><span>▤</span> Group receipt</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sync-card"><span class="pulse"></span><div><strong>Local sync active</strong><small>Across tabs on this browser</small></div></div>
+        <div class="profile"><div class="avatar">NB</div><div><strong>Shopping team</strong><small>CartShare member</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" aria-label="Toggle navigation">☰</button>
+        <div><div class="eyebrow">YOUR COLLABORATIVE SPACE</div><div class="top-title">Good shopping starts together.</div></div>
+        <div class="top-actions"><span class="live-pill"><i></i> Live room</span><button class="avatar top-avatar" title="Current member">NB</button></div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome-row"><div><div class="eyebrow">TUESDAY, YOUR SHOPPING DAY</div><h1>Room overview</h1><p class="muted">Plan one order, keep everyone in the loop.</p></div><button class="btn btn-primary" id="go-room">Open shared cart <span>→</span></button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon purple">▣</div><div class="stat-label">Items in cart</div><div class="stat-value" id="stat-items">0</div><div class="stat-foot">Across this room</div></article>
+          <article class="stat-card"><div class="stat-icon orange">₹</div><div class="stat-label">Estimated total</div><div class="stat-value" id="stat-total">₹0.00</div><div class="stat-foot">Before delivery fees</div></article>
+          <article class="stat-card"><div class="stat-icon green">♧</div><div class="stat-label">Contributors</div><div class="stat-value" id="stat-people">1</div><div class="stat-foot">People in this room</div></article>
+          <article class="stat-card"><div class="stat-icon blue">⌁</div><div class="stat-label">Room code</div><div class="stat-value code-value" id="stat-code">CART24</div><div class="stat-foot">Share to invite others</div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-head"><div><h2>Room snapshot</h2><p class="muted">A quick look at the group order</p></div><a href="#room" class="text-link">View cart →</a></div><div id="dashboard-items" class="mini-list"></div><div class="panel-footer"><span class="muted">Keep adding what your group needs.</span><a href="#room" class="text-link">Manage items</a></div></article>
+          <article class="panel invite-panel"><div class="invite-art">✳</div><div class="eyebrow">SHOP AS A TEAM</div><h2>Bring everyone to the same cart.</h2><p class="muted">Share your room code so your flatmates or teammates can join the shopping list.</p><div class="room-code-box"><span id="invite-code">CART24</span><button class="icon-btn" id="copy-code" title="Copy room code">▢</button></div><button class="btn btn-dark full" id="share-room">Copy invite details</button></article>
+        </div>
+        <article class="panel activity-preview"><div class="panel-head"><div><h2>Recent activity</h2><p class="muted">See what changed in your room</p></div><a href="#activity" class="text-link">All activity →</a></div><div id="dashboard-activity" class="activity-list"></div></article>
+      </section>
+
+      <section class="page" id="page-room">
+        <div class="welcome-row"><div><div class="eyebrow">ONE LIST. EVERYONE UPDATED.</div><h1>Shared shopping cart</h1><p class="muted">Add items, assign an owner, and keep the group order organized.</p></div><div class="room-chip">ROOM <strong id="room-code-label">CART24</strong></div></div>
+        <div class="room-toolbar panel"><div class="room-meta"><span class="live-dot"></span><div><strong>Weekend essentials</strong><small>Shared room · <span id="room-members">1 member</span></small></div></div><div class="join-controls"><input id="member-name" aria-label="Your name" placeholder="Your name"><input id="join-code" aria-label="Room code" placeholder="Room code"><button class="btn btn-outline" id="join-room">Join room</button><button class="btn btn-primary" id="new-room">＋ New room</button></div></div>
+        <div class="cart-layout">
+          <article class="panel cart-panel"><div class="panel-head"><div><h2>Your group items</h2><p class="muted"><span id="cart-count">0</span> items · updates automatically in open tabs</p></div><select id="sort-items" aria-label="Sort items"><option value="newest">Recently added</option><option value="name">Name A–Z</option><option value="price">Price: low to high</option></select></div>
+            <form id="add-form" class="add-form"><input id="item-name" required maxlength="48" placeholder="What do you need?"><input id="item-qty" type="number" min="1" max="99" value="1" required aria-label="Quantity"><input id="item-price" type="number" min="0" step="0.01" placeholder="Price ₹" aria-label="Unit price"><button class="btn btn-primary" type="submit">＋ Add item</button></form>
+            <div class="cart-table-head"><span>ITEM</span><span>ADDED BY</span><span>QTY</span><span>PRICE</span><span></span></div>
+            <div id="cart-items" class="cart-items"></div>
+            <div id="empty-cart" class="empty-state" hidden><div>🛍️</div><h3>Your cart is ready for ideas</h3><p>Add the first item and build your group order.</p></div>
+          </article>
+          <aside class="panel order-panel"><div class="panel-head"><div><h2>Order summary</h2><p class="muted">A clear view of the spend</p></div></div><div class="summary-line"><span>Items subtotal</span><strong id="subtotal">₹0.00</strong></div><div class="summary-line"><span>Delivery estimate</span><strong id="delivery">₹0.00</strong></div><div class="summary-line"><span>Free delivery target</span><strong>₹75.00</strong></div><div class="progress-track"><div id="progress-fill"></div></div><p class="progress-note" id="progress-note">Add items to track the group target.</p><div class="summary-total"><span>Estimated total</span><strong id="grand-total">₹0.00</strong></div><button class="btn btn-dark full" id="make-receipt">Generate group receipt →</button><p class="tiny muted">Estimates only. Final charges depend on the store.</p></aside>
+        </div>
+      </section>
+
+      <section class="page" id="page-activity">
+        <div class="welcome-row"><div><div class="eyebrow">EVERY CHANGE, ACCOUNTED FOR</div><h1>Activity log</h1><p class="muted">A transparent timeline of what participants do.</p></div><span class="room-chip">ROOM <strong id="activity-code">CART24</strong></span></div>
+        <article class="panel"><div class="panel-head"><div><h2>Room timeline</h2><p class="muted">Newest actions appear first.</p></div><button class="btn btn-outline" id="clear-activity">Clear history</button></div><div id="full-activity" class="activity-list timeline"></div></article>
+      </section>
+
+      <section class="page" id="page-receipt">
+        <div class="welcome-row"><div><div class="eyebrow">SHARED COSTS, CLEARLY SHOWN</div><h1>Group receipt</h1><p class="muted">Review the list and print a clean summary for your group.</p></div><button class="btn btn-primary" id="print-receipt">↗ Print / Save PDF</button></div>
+        <article class="receipt-card"><div class="receipt-top"><div class="brand"><span class="brand-mark">C</span><span>CartShare<small>GROUP ORDER SUMMARY</small></span></div><span class="receipt-status">DRAFT RECEIPT</span></div><div class="receipt-info"><div><small>ROOM CODE</small><strong id="receipt-code">CART24</strong></div><div><small>GENERATED</small><strong id="receipt-date">—</strong></div><div><small>PARTICIPANTS</small><strong id="receipt-people">1</strong></div></div><div id="receipt-lines" class="receipt-lines"></div><div class="receipt-total"><div><span>Subtotal</span><strong id="receipt-subtotal">₹0.00</strong></div><div><span>Delivery estimate</span><strong id="receipt-delivery">₹0.00</strong></div><div class="grand"><span>Estimated total</span><strong id="receipt-total">₹0.00</strong></div></div><p class="receipt-note">This is a planning receipt generated by CartShare. It is not a store invoice or proof of payment.</p></article>
+      </section>
+      <footer class="footer">© 2026 CartShare · Built for better group shopping <span>Prototype · Browser-based collaboration</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body></html>
